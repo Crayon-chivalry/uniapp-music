@@ -8,6 +8,24 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			"path": "pages/mv/index",
+			"style": {
+				"navigationBarTitleText": "视频"
+			}
+		},
+		{
+			"path": "pages/radio/index",
+			"style": {
+				"navigationBarTitleText": "电台"
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
 		}
 	],
 	"globalStyle": {
@@ -16,5 +34,35 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
-	"uniIdRouter": {}
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#515151",
+		"selectedColor": "#456AFF",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/home/index",
+				"text": "首页",
+				"iconPath": "static/img/tabs/home.png",
+				"selectedIconPath": "static/img/tabs/home-active.png"
+			},
+			{
+				"pagePath": "pages/mv/index",
+				"text": "视频",
+				"iconPath": "static/img/tabs/mv.png",
+				"selectedIconPath": "static/img/tabs/mv-active.png"
+			},
+			{
+				"pagePath": "pages/radio/index",
+				"text": "电台",
+				"iconPath": "static/img/tabs/radio.png",
+				"selectedIconPath": "static/img/tabs/radio-active.png"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "我的",
+				"iconPath": "static/img/tabs/user.png",
+				"selectedIconPath": "static/img/tabs/user-active.png"
+			}
+		]
+	}
 }

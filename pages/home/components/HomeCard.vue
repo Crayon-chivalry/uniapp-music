@@ -9,9 +9,17 @@
 		</view>
 
 		<view class="card-content">
-			<uv-swiper :list="list" keyName="picUrl" height="500rpx" next-margin="60" circular :autoplay="false" radius="10"
-				bgColor="#fff" showTitle :titleStyle="titleStyle">
-			</uv-swiper>
+			<view v-if="type == 1">
+				<uv-swiper :list="list" keyName="picUrl" height="500rpx" next-margin="60" circular :autoplay="false" radius="10"
+					bgColor="#fff" showTitle :titleStyle="titleStyle">
+				</uv-swiper>
+			</view>
+			<view class="card-scroll" v-if="type ==2">
+				<view class="card-item" v-for="item in list" :key="item.id">
+					<image :src="item.picUrl" mode="widthFix" class="card-item-cover"></image>
+					<view class="card-item-title">{{ item.title }}</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -35,9 +43,13 @@
 			default () {
 				return []
 			}
+		},
+		type: {
+			type: [String, Number],
+			default: 1
 		}
 	})
-	
+
 	let titleStyle = {
 		padding: '8rpx 20rpx',
 		fontSize: '30rpx',
@@ -76,5 +88,34 @@
 
 	.home-card :deep(.uv-swiper__wrapper__item__wrapper) {
 		margin-right: 30rpx;
+	}
+	
+	.card-scroll {
+		display: flex;
+		overflow-x: auto;
+	}
+	
+	.card-item {
+		margin-right: 30rpx;
+		flex-shrink: 0;
+		width: 25%;
+	}
+	
+	.card-item:last-child {
+		margin: 0;
+	}
+	
+	.card-item-title {
+		margin-top: 8rpx;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		overflow: hidden;
+		font-size: 26rpx;
+	}
+	
+	.card-item-cover {
+		width: 100%;
+		border-radius: 12rpx;
 	}
 </style>

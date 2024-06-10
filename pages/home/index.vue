@@ -12,6 +12,8 @@
 		<home-menu />
 		
 		<home-card title="推荐歌单" :list="songSheetList" />
+		<home-card title="推荐新曲" :list="newSongList" type="2" class="card-mt" />
+		<home-card title="推荐MV" :list="mvList" type="2" class="card-mt" />
 	</view>
 </template>
 
@@ -20,7 +22,9 @@
 	import { onLoad } from '@dcloudio/uni-app'
 	
 	import { getBanner } from '@/api/home.js'
-	import { getPersonalized } from '@/api/songSheet.js'
+	import { getReSongSheet } from '@/api/songSheet.js'
+	import { getReNewSong } from '@/api/song.js'
+	import { getReMv } from '@/api/mv.js'
 	
 	import HomeMenu from './components/HomeMenu'
 	import HomeCard from './components/HomeCard'
@@ -28,25 +32,41 @@
 	let searchVal = ref("")
 	let bannerList = ref([])
 	let songSheetList = ref([])
+	let newSongList = ref([])
+	let mvList = ref([])
 
 	onLoad(async () => {
 		let { data: { banners } } = await getBanner()
 		bannerList.value = banners
 		
-		let { data: { result: songSheet } } = await getPersonalized()
+		let { data: { result: songSheet } } = await getReSongSheet()
 		songSheet.forEach(item => item.title = item.name)
 		songSheetList.value = songSheet
-		console.log(songSheet)
-		// console.log(banners)
+		
+		let { data: {result: newSong } } = await getReNewSong()
+		newSong.forEach(item => item.title = item.name)
+		newSongList.value = newSong
+		
+		let { data: {result: mv } } = await getReMv()
+		mv.forEach(item => item.title = item.name)
+		mvList.value = mv
 	})
 </script>
 
 <style scoped>
+	.home {
+		padding-bottom: 30rpx;
+	}
+	
 	.search {
 		padding: 20rpx;
 	}
 	
 	.swiper {
 		margin-top: 20rpx;
+	}
+	
+	.card-mt {
+		margin-top: 60rpx;
 	}
 </style>
