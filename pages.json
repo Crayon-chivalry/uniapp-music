@@ -26,6 +26,20 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
+		},
+		{
+			"path" : "pages/song/dailyRecommend",
+			"style" : 
+			{
+				"navigationBarTitleText" : "每日推荐"
+			}
+		},
+		{
+			"path" : "pages/songSheet/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "歌单"
+			}
 		}
 	],
 	"globalStyle": {

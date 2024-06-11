@@ -1,10 +1,10 @@
 <template>
 	<view class="menu">
-		<view class="menu-item">
+		<view class="menu-item" @click="tolink('/pages/song/dailyRecommend')">
 			<image src="../../../static/img/home/recommend.svg" mode="widthFix" class="menu-icon"></image>
 			<view>每日推荐</view>
 		</view>
-		<view class="menu-item">
+		<view class="menu-item" @click="tolink('/pages/songSheet/index')">
 			<image src="../../../static/img/home/song-sheet.svg" mode="widthFix" class="menu-icon"></image>
 			<view>歌单</view>
 		</view>
@@ -24,6 +24,7 @@
 </template>
 
 <script setup>
+	import { tolink } from '@/utils/index.js'
 </script>
 
 <style scoped>

@@ -93,6 +93,12 @@
 	.card-scroll {
 		display: flex;
 		overflow-x: auto;
+		scrollbar-width: none; /* firefox */
+		-ms-overflow-style: none; /* IE 10+ */
+	}
+	
+	.card-scroll::-webkit-scrollbar {
+		display: none;
 	}
 	
 	.card-item {
