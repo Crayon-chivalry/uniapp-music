@@ -28,24 +28,37 @@
 			}
 		},
 		{
-			"path" : "pages/song/dailyRecommend",
-			"style" : 
-			{
-				"navigationBarTitleText" : "每日推荐"
+			"path": "pages/song/dailyRecommend",
+			"style": {
+				"navigationBarTitleText": "每日推荐"
 			}
 		},
 		{
-			"path" : "pages/songSheet/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "歌单"
+			"path": "pages/playlist/index",
+			"style": {
+				"navigationBarTitleText": "歌单"
+			}
+		},
+		{
+			"path": "pages/playlist/playlistDetails",
+			"style": {
+				"navigationBarTitleText": "歌单",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/singer/index",
+			"style": {
+				"navigationBarTitleText": "歌手"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#F8F8F8"
 	},
 	"uniIdRouter": {},

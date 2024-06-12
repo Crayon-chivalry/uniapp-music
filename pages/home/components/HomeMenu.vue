@@ -4,7 +4,7 @@
 			<image src="../../../static/img/home/recommend.svg" mode="widthFix" class="menu-icon"></image>
 			<view>每日推荐</view>
 		</view>
-		<view class="menu-item" @click="tolink('/pages/songSheet/index')">
+		<view class="menu-item" @click="tolink('/pages/playlist/index')">
 			<image src="../../../static/img/home/song-sheet.svg" mode="widthFix" class="menu-icon"></image>
 			<view>歌单</view>
 		</view>
@@ -16,7 +16,7 @@
 			<image src="../../../static/img/home/ranking.svg" mode="widthFix" class="menu-icon"></image>
 			<view>排行榜</view>
 		</view> -->
-		<view class="menu-item">
+		<view class="menu-item" @click="tolink('/pages/singer/index')">
 			<image src="../../../static/img/home/recommend.svg" mode="widthFix" class="menu-icon"></image>
 			<view>歌手</view>
 		</view>

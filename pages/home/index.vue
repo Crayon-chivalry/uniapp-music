@@ -22,7 +22,7 @@
 	import { onLoad } from '@dcloudio/uni-app'
 	
 	import { getBanner } from '@/api/home.js'
-	import { getReSongSheet } from '@/api/songSheet.js'
+	import { getRePlaylist } from '@/api/playlist.js'
 	import { getReNewSong } from '@/api/song.js'
 	import { getReMv } from '@/api/mv.js'
 	
@@ -39,7 +39,7 @@
 		let { data: { banners } } = await getBanner()
 		bannerList.value = banners
 		
-		let { data: { result: songSheet } } = await getReSongSheet()
+		let { data: { result: songSheet } } = await getRePlaylist()
 		songSheet.forEach(item => item.title = item.name)
 		songSheetList.value = songSheet
 		
