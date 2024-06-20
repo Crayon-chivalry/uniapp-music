@@ -53,6 +53,13 @@
 			"style": {
 				"navigationBarTitleText": "歌手"
 			}
+		},
+		{
+			"path" : "pages/singer/singerDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : "详情"
+			}
 		}
 	],
 	"globalStyle": {

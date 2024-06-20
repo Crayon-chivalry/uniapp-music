@@ -11,7 +11,7 @@
 		<view class="card-content">
 			<view v-if="type == 1">
 				<uv-swiper :list="list" keyName="picUrl" height="500rpx" next-margin="60" circular :autoplay="false" radius="10"
-					bgColor="#fff" showTitle :titleStyle="titleStyle">
+					bgColor="#fff" showTitle :titleStyle="titleStyle" @click="swiperClick">
 				</uv-swiper>
 			</view>
 			<view class="card-scroll" v-if="type ==2">
@@ -26,10 +26,11 @@
 
 <script setup>
 	import {
-		defineProps
+		defineProps,
+		defineEmits
 	} from 'vue'
 
-	defineProps({
+	const props = defineProps({
 		title: {
 			type: String,
 			default: ''
@@ -49,6 +50,8 @@
 			default: 1
 		}
 	})
+	
+	const $emit = defineEmits(['cardClick'])
 
 	let titleStyle = {
 		padding: '8rpx 20rpx',
@@ -56,6 +59,11 @@
 		fontWeight: 'bold',
 		backgroundColor: 'rgba(0, 0, 0, 0.4)',
 		borderRadius: '0 0 30rpx 30rpx'
+	}
+	
+	function swiperClick(e) {
+		let { id } = props.list[e]
+		$emit('cardClick', id)
 	}
 </script>
 

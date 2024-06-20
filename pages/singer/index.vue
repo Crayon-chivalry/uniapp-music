@@ -5,7 +5,7 @@
 		</view>
 		
 		<view class="list">
-			<view class="item" v-for="item in list" :key="item.id">
+			<view class="item" v-for="item in list" :key="item.id" @click="tolink('./singerDetails?id=' + item.id)">
 				<view class="item-row">
 					<uv-image :src="item.img1v1Url" mode="widthFix" width="110rpx" shape="circle"></uv-image>
 					<view class="name">{{ item.name }}</view>
@@ -21,6 +21,7 @@
 <script setup>
 	import { ref } from 'vue'
 	import { onLoad, onReachBottom } from '@dcloudio/uni-app'
+	import { tolink } from '@/utils/index.js'
 	
 	import { getSingerList } from '@/api/singer.js'
 	
