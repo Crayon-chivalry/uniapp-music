@@ -20,3 +20,24 @@ export function getSingerDesc(id) {
 		url: `/artist/desc?id=${id}`
 	})
 }
+
+// 歌手热门 50 首歌曲
+export function getSingerTopSong(id) {
+	return request({
+		url: `/artist/top/song?id=${id}`
+	})
+}
+
+// 歌手专辑
+export function getSingerAlbum(id, offset) {
+	return request({
+		url: `/artist/album?id=${id}&offset=${offset}`
+	})
+}
+
+// 歌手 MV
+export function getSingerMv(id) {
+	return request({
+		url: `/artist/mv?id=${id}`
+	})
+}

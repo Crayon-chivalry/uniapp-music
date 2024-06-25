@@ -15,20 +15,35 @@
 			<uv-tabs :list="tabs" :scrollable="false" @change="change"></uv-tabs>
 		</view>
 		
-		<singer-detail-desc :detail="detail" :desc="desc" />
+		<singer-detail-desc :detail="detail" :desc="desc" v-show="active == 0" />
+		<singer-top-song :list="songList" v-show="active == 1" />
+		<singer-album :list="albumList" v-show="active == 2" />
+		<singer-mv :list="mvList" v-show="active == 3" />
 	</view>
 </template>
 
 <script setup>
 	import { ref } from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
-	import { getSingerDetails, getSingerDesc } from '@/api/singer.js'
+	import { 
+		getSingerDetails, 
+		getSingerDesc, 
+		getSingerTopSong, 
+		getSingerAlbum, 
+		getSingerMv ,
+	} from '@/api/singer.js'
 	
 	import SingerDetailDesc from './components/SingerDetailDesc.vue'
+	import SingerTopSong from './components/SingerTopSong.vue'
+	import SingerAlbum from './components/SingerAlbum.vue'
+	import SingerMv from './components/SingerMv.vue'
 	
 	let coverStyle = ref("")
 	let detail = ref(null)
 	let desc = ref(null)
+	let songList = ref([])
+	let albumList = ref([])
+	let mvList = ref([])
 	
 	let tabs = [
 		{name: '主页'},
@@ -36,25 +51,37 @@
 		{name: '专辑'},
 		{name: '视频'}
 	]
+	let active = ref(0)
 	
 	onLoad(async (e) => {
 		let { data: { data } } = await getSingerDetails(e.id)
 		detail.value = data
 		coverStyle.value = `background: url(${data.artist.cover}) center center/cover`
-		console.log(detail.value)
 		
 		let { data : _desc }  = await getSingerDesc(e.id)
 		desc.value = _desc
+		
+		let { data: { songs } } = await getSingerTopSong(e.id)
+		songList.value = songs
+		
+		// 偏移量 暂
+		let { data: { hotAlbums } } = await getSingerAlbum(e.id, 0)
+		albumList.value = hotAlbums
+		
+		let { data: { mvs } } = await getSingerMv(e.id)
+		mvList.value = mvs
+		console.log(mvs)
 	})
 	
-	function change() {
-		
+	function change(e) {
+		active.value = e.index
 	}
 </script>
 
 <style scoped>
 	.detail {
 		background-color: #F5F5F5;
+		overflow-x: hidden;
 	}
 	
 	.cover {
