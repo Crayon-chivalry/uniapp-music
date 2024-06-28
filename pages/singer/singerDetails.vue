@@ -1,5 +1,7 @@
 <template>
 	<view class="detail" v-if="detail">
+		<uv-navbar :title="detail.artist.name" fixed="" :bgColor="navbarBg" @leftClick="back"></uv-navbar>
+		
 		<view class="cover" :style="coverStyle"></view>
 		
 		<view class="info">
@@ -17,14 +19,14 @@
 		
 		<singer-detail-desc :detail="detail" :desc="desc" v-show="active == 0" />
 		<singer-top-song :list="songList" v-show="active == 1" />
-		<singer-album :list="albumList" v-show="active == 2" />
+		<singer-album :list="albumList" v-show="active == 2" :status="albumStatus" />
 		<singer-mv :list="mvList" v-show="active == 3" />
 	</view>
 </template>
 
 <script setup>
 	import { ref } from 'vue'
-	import { onLoad } from '@dcloudio/uni-app'
+	import { onLoad, onPageScroll, onReachBottom } from '@dcloudio/uni-app'
 	import { 
 		getSingerDetails, 
 		getSingerDesc, 
@@ -38,12 +40,20 @@
 	import SingerAlbum from './components/SingerAlbum.vue'
 	import SingerMv from './components/SingerMv.vue'
 	
-	let coverStyle = ref("")
+	let id = ref("")
 	let detail = ref(null)
 	let desc = ref(null)
 	let songList = ref([])
-	let albumList = ref([])
 	let mvList = ref([])
+	
+	let albumList = ref([])
+	let albumOffset = ref(0)
+	let albumStatus = ref('loadmore')
+	
+	let coverStyle = ref("")
+	let navbarBg = ref("transparent")
+	let stickyBg = ref("transparent")
+	let pageBg = ref("#F5F5F5")
 	
 	let tabs = [
 		{name: '主页'},
@@ -54,6 +64,8 @@
 	let active = ref(0)
 	
 	onLoad(async (e) => {
+		id.value = e.id
+		
 		let { data: { data } } = await getSingerDetails(e.id)
 		detail.value = data
 		coverStyle.value = `background: url(${data.artist.cover}) center center/cover`
@@ -64,30 +76,70 @@
 		let { data: { songs } } = await getSingerTopSong(e.id)
 		songList.value = songs
 		
-		// 偏移量 暂
-		let { data: { hotAlbums } } = await getSingerAlbum(e.id, 0)
-		albumList.value = hotAlbums
-		
 		let { data: { mvs } } = await getSingerMv(e.id)
+		mvs.forEach(item => item.playCount = (item.playCount / 10000).toFixed(2))
 		mvList.value = mvs
-		console.log(mvs)
+		
+		getHotAlbums()
+	})
+	
+	onPageScroll((e) => {
+		// 顶部导航栏颜色
+		if(e.scrollTop > 22) {
+			navbarBg.value = "#fff"
+		} else {
+			navbarBg.value = "transparent"
+		}
+		// 吸顶颜色
+		if(e.scrollTop > 345) {
+			stickyBg.value = "#fff"
+		} else {
+			stickyBg.value = "transparent"
+		}
+	})
+	
+	onReachBottom(() => {
+		// 专辑的上拉加载
+		if(active.value == 2 && albumStatus.value == 'loadmore') {
+			albumOffset.value += 30
+			getHotAlbums()
+		}
 	})
 	
 	function change(e) {
 		active.value = e.index
+		if(e.index == 0) {
+			pageBg.value = '#F5F5F5'
+		} else {
+			pageBg.value = '#fff'
+		}
+	}
+	
+	function back() {
+		uni.navigateBack()
+	}
+	
+	// 获取专辑
+	async function getHotAlbums() {
+		albumStatus.value = 'loading'
+		let { data: { hotAlbums } } = await getSingerAlbum(id.value, albumOffset.value)
+		albumStatus.value = hotAlbums.length == 0 ? 'nomore' : 'loadmore'
+		albumList.value.push(...hotAlbums)
 	}
 </script>
 
 <style scoped>
 	.detail {
-		background-color: #F5F5F5;
-		overflow-x: hidden;
+		background-color: v-bind(pageBg);
+		transition: background-color 0.3s ease;
 	}
 	
 	.cover {
 		position: relative;
+		padding-top: 54px;
 		width: 100%;
 		height: 400rpx;
+		overflow-x: hidden;
 	}
 	
 	.cover::after {
@@ -135,5 +187,13 @@
 		color: #fff;
 		border-radius: 99rpx;
 		background-color: var(--main-color);
+	}
+	
+	.tabs {
+		margin-top: 20rpx;
+		position: sticky;
+		top: 44px;
+		background-color: v-bind(stickyBg);
+		z-index: 9;
 	}
 </style>

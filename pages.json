@@ -58,7 +58,17 @@
 			"path" : "pages/singer/singerDetails",
 			"style" : 
 			{
-				"navigationBarTitleText" : "详情"
+				"navigationBarTitleText" : "详情",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path" : "pages/ranking/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "排行榜"
 			}
 		}
 	],

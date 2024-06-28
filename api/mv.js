@@ -6,3 +6,10 @@ export function getReMv() {
 		url: '/personalized/mv'
 	})
 }
+
+// 全部 MV
+export function getAllMv(area, offset) {
+	return request({
+		url: `/mv/all?area=${area}&offset=${offset}`
+	})
+}

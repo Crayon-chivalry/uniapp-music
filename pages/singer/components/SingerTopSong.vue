@@ -31,12 +31,6 @@
 		padding: 20rpx;
 	}
 	
-	.song-list {
-		padding: 20rpx 0;
-		border-radius: 20rpx;
-		background-color: #fff;
-	}
-	
 	.song-item {
 		padding: 20rpx 0;
 		display: flex;
