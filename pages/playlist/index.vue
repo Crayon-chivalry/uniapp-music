@@ -43,17 +43,17 @@
 		}
 	})
 	
-	function change(e) {
+	const change = (e) => {
 		cat.value = e.name
 		offset.value = 0
 		list.value = []
 		getList()
 	}
 	
-	async function getList() {
+	const getList = async () => {
 		status.value = 'loading'
 		let { data: { playlists } } = await getPlaylist(cat.value, offset.value)
-		status.value = 'loadmore'
+		status.value = playlists.length == 0 ? 'nomore' : 'loadmore'
 		list.value.push(...playlists)
 	}
 </script>

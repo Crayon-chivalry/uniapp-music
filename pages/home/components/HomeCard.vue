@@ -61,7 +61,7 @@
 		borderRadius: '0 0 30rpx 30rpx'
 	}
 	
-	function swiperClick(e) {
+	const swiperClick = (e) => {
 		let { id } = props.list[e]
 		$emit('cardClick', id)
 	}

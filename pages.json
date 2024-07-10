@@ -12,7 +12,10 @@
 		{
 			"path": "pages/mv/index",
 			"style": {
-				"navigationBarTitleText": "视频"
+				"navigationBarTitleText": "视频",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		},
 		{
@@ -69,6 +72,16 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "排行榜"
+			}
+		},
+		{
+			"path" : "pages/mv/mvDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : "详情",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		}
 	],

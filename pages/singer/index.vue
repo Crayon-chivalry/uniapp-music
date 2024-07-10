@@ -50,17 +50,17 @@
 		}
 	})
 	
-	function change(e) {
+	const change = (e) => {
 		area.value = e.value
 		offset.value = 0
 		list.value = []
 		getList()
 	}
 	
-	async function getList() {
+	const getList = async () => {
 		status.value = 'loading'
 		let { data: { artists } } = await getSingerList(area.value, offset.value)
-		status.value = 'loadmore'
+		status.value = artists.length == 0 ? 'nomore' : 'loadmore'
 		list.value.push(...artists)
 	}
 </script>

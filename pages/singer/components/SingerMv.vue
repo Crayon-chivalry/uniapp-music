@@ -24,6 +24,8 @@
 	import {
 		formatDate
 	} from '@/utils/index.js'
+	
+	import { showDuration } from '@/utils/index.js'
 
 	defineProps({
 		list: {
@@ -33,15 +35,6 @@
 			}
 		}
 	})
-
-	function showDuration(milliseconds) {
-		let totalSeconds = milliseconds / 1000;
-		let minutes = Math.floor(totalSeconds / 60);
-		let seconds = Math.floor(totalSeconds % 60);
-		// 格式化秒数，确保显示两位数
-		let formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-		return minutes + ':' + formattedSeconds;
-	}
 </script>
 
 <style scoped>

@@ -90,7 +90,7 @@
 		}
 	})
 	
-	function back() {
+	const back = () => {
 		uni.navigateBack()
 	}
 </script>

@@ -25,7 +25,6 @@
 	onLoad(async () => {
 		let { data: {result: newSong } } = await getReNewSong()
 		newSongList.value = newSong
-		console.log(newSong)
 	})
 </script>
 

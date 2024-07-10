@@ -106,7 +106,7 @@
 		}
 	})
 	
-	function change(e) {
+	const change = (e) => {
 		active.value = e.index
 		if(e.index == 0) {
 			pageBg.value = '#F5F5F5'
@@ -115,12 +115,12 @@
 		}
 	}
 	
-	function back() {
+	const back = () => {
 		uni.navigateBack()
 	}
 	
 	// 获取专辑
-	async function getHotAlbums() {
+	const getHotAlbums = async () => {
 		albumStatus.value = 'loading'
 		let { data: { hotAlbums } } = await getSingerAlbum(id.value, albumOffset.value)
 		albumStatus.value = hotAlbums.length == 0 ? 'nomore' : 'loadmore'

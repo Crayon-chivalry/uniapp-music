@@ -1,7 +1,7 @@
 import request from "./request.js";
 
 // banner
-export function getBanner() {
+export const getBanner = () => {
 	return request({
 		url: '/banner?type=2'
 	})
