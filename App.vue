@@ -25,4 +25,14 @@
 	.col {
 		flex: 1;
 	}
+	
+	.m-btn {
+		height: 80rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		background-color: var(--main-color);
+		border-radius: 99rpx;
+	}
 </style>
