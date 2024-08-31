@@ -27,3 +27,9 @@ export const getMvStats = (id) => {
 		url: `/mv/detail/info?mvid=${id}`
 	})
 }
+
+export const getMvUrl = (id) => {
+	return request({
+		url: `/mv/url?id=${id}`
+	})
+}
