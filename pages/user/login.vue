@@ -6,14 +6,14 @@
 		
 		<view class="form">
 			<view class="form-item">
-				<uv-input placeholder="请输入手机号" border="bottom" v-model="value"></uv-input>
+				<uv-input placeholder="请输入手机号" border="none" v-model="form.phone"></uv-input>
 			</view>
 			<view class="form-item">
-				<uv-input placeholder="请输入密码" border="bottom" v-model="value"></uv-input>
+				<uv-input placeholder="请输入密码" border="none" type="password" v-model="form.password"></uv-input>
 			</view>
 		</view>
 		
-		<view class="tips">还没有账号？<text>立即注册</text></view>
+		<view class="tips">还没有账号？<text @click="tolink('./register')">立即注册</text></view>
 	
 		<view class="m-btn btn">登录</view>
 		
@@ -35,6 +35,13 @@
 </template>
 
 <script setup>
+	import { reactive } from 'vue'
+	import { tolink } from '@/utils/index.js'
+	
+	let form = reactive({
+		phone: '',
+		password: ''
+	})
 </script>
 
 <style scoped>
@@ -57,6 +64,9 @@
 	
 	.form-item {
 		margin-top: 30rpx;
+		padding: 20rpx;
+		border-radius: 12rpx;
+		background-color: #f6f8fa;
 	}
 	
 	.tips {
@@ -91,7 +101,7 @@
 	
 	.other {
 		position: fixed;
-		bottom: 8%;
+		bottom: 7%;
 		left: 0;
 		right: 0;
 	}
@@ -110,6 +120,6 @@
 	
 	.other-icon {
 		margin: 0 40rpx;
-		width: 90rpx;
+		width: 80rpx;
 	}
 </style>
