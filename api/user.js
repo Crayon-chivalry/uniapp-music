@@ -13,3 +13,24 @@ export const getPhoneCheck = (phone) => {
 		url: `/cellphone/existence/check?phone=${phone}`
 	})
 }
+
+// 发送验证码
+export const sentCaptcha = (phone) => {
+	return request({
+		url: `/captcha/sent?phone=${phone}`
+	})
+}
+
+// 验证验证码
+export const verifyCaptcha = (phone, captcha) => {
+	return request({
+		url: `/captcha/verify?phone=${phone}&captcha=${captcha}`
+	})
+}
+
+// 注册(修改密码)
+export const register = (e) => {
+	return request({
+		url: `/register/cellphone?phone=${e.phone}&password=${e.password}&captcha=${e.captcha}&nickname=${e.nickname}`
+	})
+}

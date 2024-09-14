@@ -57,7 +57,7 @@
 	import { reactive, ref } from 'vue'
 	import { tolink } from '@/utils/index.js'
 	
-	import { getNicknameCheck, getPhoneCheck } from '@/api/user.js'
+	import { getNicknameCheck, getPhoneCheck, sentCaptcha, verifyCaptcha } from '@/api/user.js'
 	
 	const formRef = ref(null)
 	
@@ -78,6 +78,7 @@
 			},
 			{
 				asyncValidator: (rule, value, callback) => {
+					if(!value) return
 					// 验证昵称是否重复/规范
 					getNicknameCheck(value).then((res) => {
 						if(res.data.code != 200) 	callback(new Error(res.data.message))
@@ -104,12 +105,24 @@
 				trigger: ['blur']
 			}
 		],
-		'captcha': {
-			type: 'string',
-			required: true,
-			message: '请输入验证码',
-			trigger: ['blur', 'change']
-		},
+		'captcha': [
+			{
+				type: 'string',
+				required: true,
+				message: '请输入验证码',
+				trigger: ['blur', 'change']
+			},
+			{
+				asyncValidator: (rule, value, callback) => {
+					if(!value) return
+					// 验证码验证
+					verifyCaptcha(form.phone, value).then((res) => {
+						if(res.data.code != 200) callback(new Error(res.data.message))
+					})
+				},
+				trigger: ['blur']
+			}
+		],
 		'password': {
 			type: 'string',
 			required: true,
@@ -146,8 +159,17 @@
 	})
 	
 	// 发生验证码
-	const send = (() => {
-		startTimer()
+	const send = (async () => {
+		if(form.phone == '') {
+			uni.showToast({ title: '请输入手机号码' })
+			return
+		}
+		if(!uni.$uv.test.mobile(form.phone)) {
+			uni.showToast({ title: '请输入正确的手机号码' })
+			return
+		}
+		let { data } = await sentCaptcha(form.phone)
+		if(data.code == 200) startTimer()
 	})
 	
 	const submit = (() => {
