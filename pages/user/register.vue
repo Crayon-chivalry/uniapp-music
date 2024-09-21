@@ -173,7 +173,6 @@
 	})
 	
 	const submit = (() => {
-		console.log(uni.$uv.test)
 		formRef.value.validate().then(res => {
 			
 		}).catch(() => {})

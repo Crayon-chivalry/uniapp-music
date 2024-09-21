@@ -34,3 +34,10 @@ export const register = (e) => {
 		url: `/register/cellphone?phone=${e.phone}&password=${e.password}&captcha=${e.captcha}&nickname=${e.nickname}`
 	})
 }
+
+// 登录
+export const login = (phone, md5_password) => {
+	return request({
+		url: `/login/cellphone?phone=${phone}&md5_password=${md5_password}`
+	})
+}

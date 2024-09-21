@@ -5,17 +5,23 @@
 		<view class="title">欢迎来到网抑云</view>
 		
 		<view class="form">
-			<view class="form-item">
-				<uv-input placeholder="请输入手机号" border="none" v-model="form.phone"></uv-input>
-			</view>
-			<view class="form-item">
-				<uv-input placeholder="请输入密码" border="none" type="password" v-model="form.password"></uv-input>
-			</view>
+			<uv-form labelPosition="left" :model="form" :rules="rules" ref="formRef" labelWidth="0">
+				<uv-form-item label="" prop="phone">
+					<view class="form-item">
+						<uv-input placeholder="请输入手机号" border="none" v-model="form.phone"></uv-input>
+					</view>
+				</uv-form-item>
+				<uv-form-item label="" prop="password">
+					<view class="form-item">
+						<uv-input placeholder="请输入密码" border="none" type="password" v-model="form.password"></uv-input>
+					</view>
+				</uv-form-item>
+			</uv-form>
 		</view>
 		
 		<view class="tips">还没有账号？<text @click="tolink('./register')">立即注册</text></view>
 	
-		<view class="m-btn btn">登录</view>
+		<view class="m-btn btn" @click="submit">登录</view>
 		
 		<view class="operate">
 			<view class="operate-active">手机快捷登录</view>
@@ -24,7 +30,7 @@
 		</view>
 		
 		<view class="other">
-			<view class="other-title">第三平台登录</view>
+			<view class="other-title">第三平台登录{{$store.state.loginState}}</view>
 			<view class="other-row">
 				<image src="../../static/img/user/qq-login.svg" mode="widthFix" class="other-icon"></image>
 				<image src="../../static/img/user/wx-login.svg" mode="widthFix" class="other-icon"></image>
@@ -35,13 +41,55 @@
 </template>
 
 <script setup>
-	import { reactive } from 'vue'
+	import { reactive, ref } from 'vue'
+	import { useStore } from 'vuex'
 	import { tolink } from '@/utils/index.js'
+	import { md5 } from 'js-md5';
+	
+	import { login } from '@/api/user.js'
+	
+	const store = useStore()
+	
+	const formRef = ref(null)
 	
 	let form = reactive({
 		phone: '',
 		password: ''
 	})
+	
+	const rules = {
+		'phone': {
+			type: 'string',
+			required: true,
+			message: '请输入手机号',
+			trigger: ['blur', 'change']
+		},
+		'password': {
+			type: 'string',
+			required: true,
+			message: '请输入密码',
+			trigger: ['blur', 'change']
+		}
+	}
+	
+	const submit = () => {
+		formRef.value.validate().then(async () => {
+			let { data } = await login(form.phone, md5(form.password))
+			if(data.code != 200) {
+				uni.showToast({
+					title: data.msg,
+					icon: 'none'
+				})
+				return
+			}
+			uni.setStorageSync('id', data.account.id)
+			uni.setStorageSync('userid', form.phone)
+			store.commit('setLoginState', true)
+			uni.switchTab({
+				url: '/pages/user/index'
+			})
+		}).catch(() => {})
+	}
 </script>
 
 <style scoped>
@@ -63,10 +111,14 @@
 	}
 	
 	.form-item {
-		margin-top: 30rpx;
+		flex: 1;
 		padding: 20rpx;
 		border-radius: 12rpx;
 		background-color: #f6f8fa;
+	}
+	
+	:deep(.uv-form-item__body) {
+		padding: 12rpx 0;
 	}
 	
 	.tips {
