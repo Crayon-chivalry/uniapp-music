@@ -39,25 +39,34 @@
 		<view class="m-btn btn" @click="submit">注册</view>
 
 		<view class="footer">
-			<checkbox-group>
+			<checkbox-group @change="checkChange">
 				<label class="footer-row">
 					<checkbox value="cb" :checked="checked" style="transform:scale(0.6)" color="var(--main-color)" />
-					<text class="click-text">我已阅读并同意</text>
-					<text>《隐私政策》</text>
+					<text>我已阅读并同意</text>
+					<text class="click-text" @click.stop="contractClick(1)">《隐私政策》</text>
 					<text>和</text>
-					<text class="click-text">《用户协议》</text>
+					<text class="click-text" @click.stop="contractClick(2)">《用户协议》</text>
 				</label>
 			</checkbox-group>
 		</view>
+
+		<!-- 隐私政策 / 用户协议 弹框 -->
+		<uv-modal ref="modalRef" :title="privacyDataActive.title">
+			<view class="modal">
+				<view v-for="(item, index) in privacyDataActive.content" :key="index" v-html="item"></view>
+			</view>
+		</uv-modal>
 	</view>
 </template>
 
 <script setup>
-	import { onLoad, onHide } from '@dcloudio/uni-app'
+	import { onHide } from '@dcloudio/uni-app'
 	import { reactive, ref } from 'vue'
 	import { tolink } from '@/utils/index.js'
 	
-	import { getNicknameCheck, getPhoneCheck, sentCaptcha, verifyCaptcha } from '@/api/user.js'
+	import { getNicknameCheck, getPhoneCheck, sentCaptcha, verifyCaptcha, register } from '@/api/user.js'
+
+	import privacyData from '@/static/text/privacyPolicy'
 	
 	const formRef = ref(null)
 	
@@ -135,10 +144,29 @@
 	
 	let timer = ref(null)
 	let countdown = ref(0)
+
+	let modalRef = ref(null)
+	let privacyDataActive = ref({})
 	
 	onHide(() => {
 		stopTimer()
 	})
+
+	// 显示隐私政策/用户协议
+	const contractClick = (e) => {
+		if(e == 1) {
+			privacyDataActive.value = privacyData.privacyPolicy
+		}
+		if(e == 2) {
+			privacyDataActive.value = privacyData.userAgreement
+		}
+		modalRef.value.open()
+	}
+
+	// 同意协议
+	const checkChange = () => {
+		checked.value = !checked.value
+	}
 	
 	// 开始倒计时
 	const startTimer = (() => {
@@ -161,11 +189,11 @@
 	// 发生验证码
 	const send = (async () => {
 		if(form.phone == '') {
-			uni.showToast({ title: '请输入手机号码' })
+			uni.showToast({ title: '请输入手机号码', icon: 'none' })
 			return
 		}
 		if(!uni.$uv.test.mobile(form.phone)) {
-			uni.showToast({ title: '请输入正确的手机号码' })
+			uni.showToast({ title: '请输入正确的手机号码', icon: 'none' })
 			return
 		}
 		let { data } = await sentCaptcha(form.phone)
@@ -173,8 +201,17 @@
 	})
 	
 	const submit = (() => {
-		formRef.value.validate().then(res => {
-			
+		formRef.value.validate().then(async () => {
+			if(!checked.value) {
+				uni.showToast({ title: '请阅读并同意相关协议', icon: 'none' })
+				return
+			}
+			let { data } = await register(form)
+			if(data.code != 200) {
+				uni.showToast({ title: data.msg, icon: 'none' })
+				return
+			}
+			uni.showToast({ title: '注册成功', icon: 'none' })
 		}).catch(() => {})
 	})
 </script>
@@ -245,5 +282,10 @@
 	
 	.countdown-text {
 		color: gray;
+	}
+
+	.modal {
+		max-height: 600rpx;
+		overflow-y: auto;
 	}
 </style>

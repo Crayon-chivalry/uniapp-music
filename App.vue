@@ -1,6 +1,7 @@
 <script>
 	export default {
 		onLaunch: function() {
+			// 检测登录状态
 		}
 	}
 </script>

@@ -26,15 +26,15 @@
 		<view class="operate">
 			<view class="operate-active">手机快捷登录</view>
 			<view class="operate-line">|</view>
-			<view>忘记密码?</view>
+			<view @click="otherClick">忘记密码?</view>
 		</view>
 		
 		<view class="other">
-			<view class="other-title">第三平台登录{{$store.state.loginState}}</view>
+			<view class="other-title">第三平台登录</view>
 			<view class="other-row">
-				<image src="../../static/img/user/qq-login.svg" mode="widthFix" class="other-icon"></image>
-				<image src="../../static/img/user/wx-login.svg" mode="widthFix" class="other-icon"></image>
-				<image src="../../static/img/user/wb-login.svg" mode="widthFix" class="other-icon"></image>
+				<image src="../../static/img/user/qq-login.svg" mode="widthFix" class="other-icon" @click="otherClick"></image>
+				<image src="../../static/img/user/wx-login.svg" mode="widthFix" class="other-icon" @click="otherClick"></image>
+				<image src="../../static/img/user/wb-login.svg" mode="widthFix" class="other-icon" @click="otherClick"></image>
 			</view>
 		</view>
 	</view>
@@ -71,17 +71,25 @@
 			trigger: ['blur', 'change']
 		}
 	}
+
+	const otherClick = () => {
+		uni.showToast({
+			title: "暂未开放~",
+			icon: 'none'
+		})
+	}
 	
 	const submit = () => {
 		formRef.value.validate().then(async () => {
 			let { data } = await login(form.phone, md5(form.password))
 			if(data.code != 200) {
 				uni.showToast({
-					title: data.msg,
+					title: data.message,
 					icon: 'none'
 				})
 				return
 			}
+			uni.setStorageSync('token', data.token)
 			uni.setStorageSync('id', data.account.id)
 			uni.setStorageSync('userid', form.phone)
 			store.commit('setLoginState', true)
