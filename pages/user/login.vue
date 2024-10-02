@@ -11,9 +11,19 @@
 						<uv-input placeholder="请输入手机号" border="none" v-model="form.phone"></uv-input>
 					</view>
 				</uv-form-item>
-				<uv-form-item label="" prop="password">
+				<uv-form-item label="" prop="password" v-if="loginType == 0">
 					<view class="form-item">
 						<uv-input placeholder="请输入密码" border="none" type="password" v-model="form.password"></uv-input>
+					</view>
+				</uv-form-item>
+				<uv-form-item label="" prop="captcha" v-if="loginType == 1">
+					<view class="form-item">
+						<uv-input placeholder="请输入验证码" border="none" v-model="form.captcha">
+							<template #suffix>
+								<view class="click-text" @click="send" v-if="!timer">获取验证码</view>
+								<view class="countdown-text" v-else>{{ countdown }}秒后可重新发送</view>
+							</template>
+						</uv-input>
 					</view>
 				</uv-form-item>
 			</uv-form>
@@ -24,7 +34,8 @@
 		<view class="m-btn btn" @click="submit">登录</view>
 		
 		<view class="operate">
-			<view class="operate-active">手机快捷登录</view>
+			<view class="operate-active" @click="loginType = 1" v-if="loginType == 0">手机快捷登录</view>
+			<view class="operate-active" @click="loginType = 0" v-if="loginType == 1">手机密码登录</view>
 			<view class="operate-line">|</view>
 			<view @click="otherClick">忘记密码?</view>
 		</view>
@@ -41,20 +52,24 @@
 </template>
 
 <script setup>
+	import { onHide } from '@dcloudio/uni-app'
 	import { reactive, ref } from 'vue'
 	import { useStore } from 'vuex'
 	import { tolink } from '@/utils/index.js'
 	import { md5 } from 'js-md5';
 	
-	import { login } from '@/api/user.js'
+	import { login, sentCaptcha } from '@/api/user.js'
 	
 	const store = useStore()
 	
 	const formRef = ref(null)
 	
+	let loginType = ref(0) // 0 密码登录，1 验证码登录
+	
 	let form = reactive({
 		phone: '',
-		password: ''
+		password: '',
+		captcha: ''
 	})
 	
 	const rules = {
@@ -65,13 +80,36 @@
 			trigger: ['blur', 'change']
 		},
 		'password': {
-			type: 'string',
-			required: true,
+			validator: (rule, value, callback) => {
+				if(loginType.value == 0 && value == '') {
+					return false
+				} else {
+					return true
+				}
+			},
 			message: '请输入密码',
+			trigger: ['blur', 'change']
+		},
+		'captcha': {
+			validator: (rule, value, callback) => {
+				if(loginType.value == 1 && value == '') {
+					return false
+				} else {
+					return true
+				}
+			},
+			message: '请输入验证码',
 			trigger: ['blur', 'change']
 		}
 	}
-
+	
+	let timer = ref(null)
+	let countdown = ref(0)
+	
+	onHide(() => {
+		stopTimer()
+	})
+	
 	const otherClick = () => {
 		uni.showToast({
 			title: "暂未开放~",
@@ -79,9 +117,41 @@
 		})
 	}
 	
+	// 开始倒计时
+	const startTimer = (() => {
+		countdown.value = 60
+		timer.value = setInterval(() => {
+			if(countdown.value == 0) {
+				stopTimer()
+			} else {
+				countdown.value--
+			}
+		}, 1000)
+	})
+	
+	// 停止倒计时
+	const stopTimer = (() => {
+		clearInterval(timer.value)
+		timer.value = null
+	})
+	
+	// 发生验证码
+	const send = (async () => {
+		if(form.phone == '') {
+			uni.showToast({ title: '请输入手机号码', icon: 'none' })
+			return
+		}
+		if(!uni.$uv.test.mobile(form.phone)) {
+			uni.showToast({ title: '请输入正确的手机号码', icon: 'none' })
+			return
+		}
+		let { data } = await sentCaptcha(form.phone)
+		if(data.code == 200) startTimer()
+	})
+	
 	const submit = () => {
 		formRef.value.validate().then(async () => {
-			let { data } = await login(form.phone, md5(form.password))
+			let { data } = await login(form.phone, md5(form.password), form.captcha)
 			if(data.code != 200) {
 				uni.showToast({
 					title: data.message,
@@ -181,5 +251,13 @@
 	.other-icon {
 		margin: 0 40rpx;
 		width: 80rpx;
+	}
+	
+	.click-text {
+		color: var(--main-color);
+	}
+	
+	.countdown-text {
+		color: gray;
 	}
 </style>

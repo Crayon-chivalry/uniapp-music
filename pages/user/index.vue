@@ -6,10 +6,11 @@
 		</view>
 		
 		<view class="user">
-			<view class="user-col">
+			<view class="user-col" @click="userClick">
 				<view class="user-row">
 					<image src="../../static/logo.png" class="user-tx"></image>
-					<view class="user-name">123</view>
+					<view class="user-name" v-if="checkLoginState()">123</view>
+					<view class="user-name" v-else>立即登录</view>
 				</view>
 				<uv-icon name="arrow-right" color="gray" size="18"></uv-icon>
 			</view>
@@ -76,6 +77,27 @@
 </template>
 
 <script setup>
+	import { onShow } from '@dcloudio/uni-app'
+	
+	import { getSubcount } from '@/api/user.js'
+	import { checkLoginState, tolink } from '@/utils/index.js'
+	
+	onShow(() => {
+		getSubcountData()
+	})
+	
+	const userClick = () => {
+		if(checkLoginState()) {
+			
+		} else {
+			tolink('./login')
+		}
+	}
+	
+	const getSubcountData = async () => {
+		let { data } = await getSubcount()
+		console.log(data)
+	}
 </script>
 
 <style scoped>

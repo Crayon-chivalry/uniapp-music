@@ -106,6 +106,16 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			"path" : "pages/song/songDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

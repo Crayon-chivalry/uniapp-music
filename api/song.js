@@ -6,3 +6,10 @@ export const getReNewSong = () => {
 		url: '/personalized/newsong'
 	})
 }
+
+// 获取歌曲
+export const getSong = (ids) => {
+	return request({
+		url: `/song/detail?ids=${ids}`
+	})
+}

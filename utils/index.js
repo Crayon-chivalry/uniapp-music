@@ -1,3 +1,10 @@
+import store from '@/store/index.js'
+
+// 获取登录状态
+function checkLoginState() {
+	return store.state.loginState
+}
+
 function tolink(url) {
 	uni.navigateTo({
 		url
@@ -24,6 +31,7 @@ function showDuration(milliseconds) {
 }
 
 export {
+	checkLoginState,
 	tolink,
 	formatDate,
 	showDuration

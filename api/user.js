@@ -36,8 +36,35 @@ export const register = (e) => {
 }
 
 // 登录
-export const login = (phone, md5_password) => {
+export const login = (phone, md5_password, captcha) => {
+	if(captcha) {
+		return request({
+			url: `/login/cellphone?phone=${phone}&captcha=${captcha}`
+		})
+	} else {
+		return request({
+			url: `/login/cellphone?phone=${phone}&md5_password=${md5_password}`
+		})
+	}
+}
+
+// 获取用户详情
+export const getUserDetails = (uid) => {
 	return request({
-		url: `/login/cellphone?phone=${phone}&md5_password=${md5_password}`
+		url: `/user/detail?uid=${uid}`
+	})
+}
+
+// 获取账号信息
+export const getAccount = (uid) => {
+	return request({
+		url: `/user/account`
+	})
+}
+
+// 获取用户信息 , 歌单，收藏，mv, dj 数量
+export const getSubcount = (uid) => {
+	return request({
+		url: `/user/subcount`
 	})
 }
