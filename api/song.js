@@ -13,3 +13,10 @@ export const getSong = (ids) => {
 		url: `/song/detail?ids=${ids}`
 	})
 }
+
+// 获取歌曲 url 
+export const getSongUrl = (id) => {
+	return request({
+		url: `/song/url?id=${id}`
+	})
+}

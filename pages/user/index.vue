@@ -73,6 +73,8 @@
 				<uv-icon name="more-dot-fill"></uv-icon>
 			</view>
 		</view>
+		
+		<player :is-tab-bar="true" />
 	</view>
 </template>
 
@@ -83,7 +85,9 @@
 	import { checkLoginState, tolink } from '@/utils/index.js'
 	
 	onShow(() => {
-		getSubcountData()
+		if(checkLoginState()) {
+			getSubcountData()
+		}
 	})
 	
 	const userClick = () => {

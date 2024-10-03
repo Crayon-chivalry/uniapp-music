@@ -1,8 +1,17 @@
 import store from '@/store/index.js'
+import useMusic from '@/hooks/useMusic.js'
+
+const { setMusicData } = useMusic()
 
 // 获取登录状态
 function checkLoginState() {
 	return store.state.loginState
+}
+
+// 执行保存歌曲信息方法，并跳转
+function toSongDetails(e) {
+	setMusicData(e)
+	tolink('/pages/song/songDetails?id=' + e.id)
 }
 
 function tolink(url) {
@@ -33,6 +42,7 @@ function showDuration(milliseconds) {
 export {
 	checkLoginState,
 	tolink,
+	toSongDetails,
 	formatDate,
 	showDuration
 }

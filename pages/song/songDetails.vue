@@ -25,13 +25,14 @@
 			<view class="speed">
 				<view>{{ showDuration(currentTime) }}</view>
 				<view class="col">
-					<uv-slider v-model="playProgress"></uv-slider>
+					<uv-slider v-model="progress" block-size="16"></uv-slider>
 				</view>
-				<view>{{ showDuration(song.dt) }}</view>
+				<view>{{ showDuration(totalTime) }}</view>
 			</view>
 			<view class="footer-row">
 				<image src="../../static/img/song/prve.png" mode="widthFix" class="footer-icon"></image>
-				<image src="../../static/img/playlist/play.svg" mode="widthFix" class="play-icon"></image>
+				<image src="../../static/img/song/pause.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="playState"></image>
+				<image src="../../static/img/song/play.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="!playState"></image>
 				<image src="../../static/img/song/next.png" mode="widthFix" class="footer-icon"></image>
 			</view>
 		</view>
@@ -45,19 +46,27 @@
 	import { getSong } from '@/api/song.js'
 	import { showDuration } from '@/utils/index.js'
 	
-	let song = ref(null)
+	import useMusic from '@/hooks/useMusic.js'
 	
-	let playProgress = ref(0)
-	let currentTime = ref(0)
+	const { currentTime, totalTime, progress, playState, play, pause } = useMusic()
+	
+	let song = ref(null)
 	
 	onLoad(async (e) => {
 		let { data } = await getSong(e.id)
 		song.value = data.songs[0]
-		console.log(data)
 	})
 	
 	const onback = () => {
 		uni.navigateBack()
+	}
+	
+	const playChange = () => {
+		if(playState.value) {
+			pause()
+		} else {
+			play()
+		}
 	}
 </script>
 

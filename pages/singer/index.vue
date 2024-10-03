@@ -15,6 +15,8 @@
 		</view>
 		
 		<uv-load-more :status="status" />
+		
+		<player />
 	</view>
 </template>
 

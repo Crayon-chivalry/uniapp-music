@@ -4,6 +4,8 @@
 			<image :src="item.coverImgUrl" v-for="item in topList" :key="item.id" mode="widthFix" 
 				class="cover" @click="tolink('/pages/playlist/playlistDetails?id=' + item.id)"></image>
 		</view>
+		
+		<player />
 	</view>
 </template>
 

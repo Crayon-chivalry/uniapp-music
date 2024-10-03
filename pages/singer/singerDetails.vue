@@ -21,6 +21,8 @@
 		<singer-top-song :list="songList" v-show="active == 1" />
 		<singer-album :list="albumList" v-show="active == 2" :status="albumStatus" />
 		<singer-mv :list="mvList" v-show="active == 3" />
+		
+		<player />
 	</view>
 </template>
 

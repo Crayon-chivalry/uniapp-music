@@ -15,7 +15,7 @@
 				</uv-swiper>
 			</view>
 			<view class="card-scroll" v-if="type ==2">
-				<view class="card-item" v-for="item in list" :key="item.id">
+				<view class="card-item" v-for="item in list" :key="item.id" @click="$emit('cardClick', item)">
 					<image :src="item.picUrl" mode="widthFix" class="card-item-cover"></image>
 					<view class="card-item-title">{{ item.title }}</view>
 				</view>

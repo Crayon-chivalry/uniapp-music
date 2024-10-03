@@ -12,15 +12,17 @@
 		<home-menu />
 		
 		<home-card title="推荐歌单" :list="songSheetList" @cardClick="(e) => tolink('/pages/playlist/playlistDetails?id=' + e)" />
-		<home-card title="推荐新曲" :list="newSongList" type="2" class="card-mt" />
+		<home-card title="推荐新曲" :list="newSongList" type="2" class="card-mt" @cardClick="(e) => toSongDetails(e)" />
 		<home-card title="推荐MV" :list="mvList" type="2" class="card-mt" />
+		
+		<player :is-tab-bar="true" />
 	</view>
 </template>
 
 <script setup>
 	import { ref } from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
-	import { tolink } from '@/utils/index.js'
+	import { tolink, toSongDetails } from '@/utils/index.js'
 	
 	import { getBanner } from '@/api/home.js'
 	import { getRePlaylist } from '@/api/playlist.js'

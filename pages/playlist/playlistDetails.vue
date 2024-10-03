@@ -47,7 +47,7 @@
 				<view>播放全部<text>({{ playlist.tracks.length }})</text></view>
 			</view>
 			<view class="list">
-				<view class="item" v-for="(item,index) in playlist.tracks" :key="item.id">
+				<view class="item" v-for="(item,index) in playlist.tracks" :key="item.id" @click="toSongDetails(item)">
 					<view class="number">{{ index + 1 }}</view>
 					<view class="col">
 						<view class="item-name">{{ item.name }}</view>
@@ -57,6 +57,8 @@
 				</view>
 			</view>
 		</view>
+		
+		<player />
 	</view>
 </template>
 
@@ -65,6 +67,8 @@
 	import { onLoad, onPageScroll } from '@dcloudio/uni-app'
 	
 	import { getPlaylistDetails } from '@/api/playlist.js'
+	
+	import { toSongDetails } from '@/utils/index.js'
 	
 	let navbarBg = ref("transparent")
 	let stickyBg = ref("transparent")

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="list">
-			<view class="item" v-for="item in newSongList" :key="item.id" @click="tolink('./songDetails?id=' + item.id)">
+			<view class="item" v-for="item in newSongList" :key="item.id" @click="toSongDetails(item)">
 				<image :src="item.picUrl" mode="widthFix" class="pice"></image>
 				<view class="item-content">
 					<view class="name">{{ item.name }}</view>
@@ -11,6 +11,8 @@
 				</view>
 			</view>
 		</view>
+	
+		<player />
 	</view>
 </template>
 
@@ -19,7 +21,7 @@
 	import { onLoad } from '@dcloudio/uni-app'
 	
 	import { getReNewSong } from '@/api/song.js'
-	import { tolink } from '@/utils/index.js'
+	import { toSongDetails } from '@/utils/index.js'
 	
 	let newSongList = ref([])
 	
