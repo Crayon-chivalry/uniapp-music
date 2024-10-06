@@ -116,6 +116,27 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			"path" : "pages/user/userSet",
+			"style" : 
+			{
+				"navigationBarTitleText" : "设置"
+			}
+		},
+		{
+			"path" : "pages/playlist/playlistUser",
+			"style" : 
+			{
+				"navigationBarTitleText" : "我的歌单"
+			}
+		},
+		{
+			"path" : "pages/playlist/playlistCollect",
+			"style" : 
+			{
+				"navigationBarTitleText" : "收藏歌单"
+			}
 		}
 	],
 	"globalStyle": {

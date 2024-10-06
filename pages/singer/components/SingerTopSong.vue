@@ -1,7 +1,7 @@
 <template>
 	<view class="top-song">
 		<view class="song-list">
-			<view class="song-item" v-for="(item,index) in list" :key="item.id">
+			<view class="song-item" v-for="(item,index) in list" :key="item.id" @click="toSongDetails(item)">
 				<view class="song-number">{{ index + 1 }}</view>
 				<view class="col">
 					<view class="song-name">{{ item.name }}</view>
@@ -15,6 +15,7 @@
 
 <script setup>
 	import { defineProps } from 'vue'
+	import { toSongDetails } from '@/utils/index.js'
 	
 	defineProps({
 		list: {

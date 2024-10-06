@@ -6,7 +6,7 @@
 				艺人别名：
 				<text v-for="item in detail.artist.alias">{{ item }}</text>
 			</view>
-			<view class="cell">音乐身份：{{ detail.identify.imageDesc }}</view>
+			<view class="cell">音乐身份：{{ detail.identify?.imageDesc }}</view>
 			<view v-if="detail.user">
 				<view class="cell">性别：{{ detail.user.gender == 0 ? '女' : '男' }}</view>
 				<view class="cell">生日：{{ formatDate(detail.user.birthday) }}</view>

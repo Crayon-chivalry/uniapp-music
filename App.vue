@@ -1,7 +1,16 @@
 <script>
+	import { nextTick } from 'vue'
+	import { useStore } from 'vuex'
+	
 	export default {
 		onLaunch: function() {
 			// 检测登录状态
+			
+			// 暂
+			if(uni.getStorageSync('token')) {
+				const store = useStore()
+				store.commit('setLoginState', true)
+			}
 		}
 	}
 </script>

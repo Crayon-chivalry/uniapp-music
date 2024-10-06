@@ -30,9 +30,11 @@ export default function useMusic() {
 	// 监听播放器事件
 	function listen() {
 		// 播放结束
-		// innerAudioContext.value.onEnded(() => {
-		// 	destroyTime()
-		// })
+		innerAudioContext.value.onEnded(() => {
+			currentTime.value = 0
+			progress.value = 0
+			destroyTime()
+		})
 		// 暂停
 		innerAudioContext.value.onPause(() => {
 			playState.value = false
@@ -42,14 +44,18 @@ export default function useMusic() {
 	
 	// 播放
 	function play() {
-		innerAudioContext.value.play()
-		playState.value = true
-		setPlayTime()
+		if(innerAudioContext.value) {
+			innerAudioContext.value.play()
+			playState.value = true
+			setPlayTime()
+		}
 	}
 	
 	// 暂停
 	function pause() {
-		innerAudioContext.value.pause()
+		if(innerAudioContext.value) {
+			innerAudioContext.value.pause()
+		}
 	}
 	
 	// 设置当前歌曲播放时长

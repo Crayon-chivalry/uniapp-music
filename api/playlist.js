@@ -34,3 +34,10 @@ export const getPlaylistDynamic = (id) => {
 		url: `/playlist/detail/dynamic?id=${id}`
 	})
 }
+
+// 获取用户歌单
+export function getPlaylistUser(uid) {
+  return request({
+    url: `/user/playlist?uid=${uid}`
+  })
+}

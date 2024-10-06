@@ -6,11 +6,11 @@
 		
 		<view class="content">
 			<view class="play-wrap">
-				<view @click="pause" v-show="playState || progress > 0">
+				<view @click="pauseVideo" v-show="playState || progress > 0">
 					<video id="myVideo" :src="url" :controls="false" class="video" @timeupdate="timeupdate"></video>
 				</view>
 				<image :src="details.cover" mode="widthFix" class="cover-img" v-show="!playState && progress == 0"></image>
-				<view class="play-mask" v-show="!playState" @click="play">
+				<view class="play-mask" v-show="!playState" @click="playVideo">
 					<uv-icon name="play-right-fill" color="#fff" size="40"></uv-icon>
 				</view>
 			</view>
@@ -50,9 +50,13 @@
 
 <script setup>
 	import { ref } from 'vue'
-	import { onLoad } from '@dcloudio/uni-app'
+	import { onLoad, onUnload } from '@dcloudio/uni-app'
 	
 	import { getMvDetail, getMvStats, getMvUrl } from '@/api/mv.js'
+	
+	import useMusic from '@/hooks/useMusic.js'
+	
+	const { pause, play } = useMusic()
 	
 	let details = ref(null)
 	let stats = ref({})
@@ -65,6 +69,9 @@
 	let content = ref("")
 	
 	onLoad(async (e) => {
+		// 进入该页面暂停音乐的播放
+		pause()
+		
 		let { data: { data } } = await getMvDetail(e.id)
 		data.duration = data.duration / 1000
 		details.value = data
@@ -76,19 +83,24 @@
 		url.value = mvUrl.url
 	})
 	
+	onUnload(() => {
+		// 离开页面重新播放音乐
+		play()
+	})
+	
 	const back = () => {
 		uni.navigateBack()
 	}
 	
 	// 播放视频
-	const play = () => {
+	const playVideo = () => {
 		playState.value = true
 		videoContext.value = uni.createVideoContext('myVideo');
 		videoContext.value.play()
 	}
 	
 	// 暂停播放
-	const pause = () => {
+	const pauseVideo = () => {
 		videoContext.value.pause()
 		playState.value = false
 	}
