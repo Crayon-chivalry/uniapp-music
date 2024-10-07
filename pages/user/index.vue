@@ -39,37 +39,14 @@
 		
 		<image src="../../static/img/user/vip-banner.png" mode="widthFix" class="banner"></image>
 		
-		<view class="card">
-			<view class="card-header">
-				<view class="card-title">我的歌单</view>
-				<view class="card-more" @click="tolink('/pages/playlist/playlistUser')">
-					<view>查看全部</view>
-					<uv-icon name="arrow-right"></uv-icon>
-				</view>
-			</view>
-			<view class="card-item" v-for="item in playlist" :key="item.id">
-				<view class="card-row">
-					<image :src="item.coverImgUrl" mode="widthFix" class="card-item-cover"></image>
-					<view>
-						<view>{{ item.name }}</view>
-						<view class="count">{{ item.trackCount }}首</view>
-					</view>
-				</view>
-				<uv-icon name="more-dot-fill"></uv-icon>
-			</view>
-			<uv-empty mode="data" icon="https://cdn.uviewui.com/uview/empty/data.png" text="暂无歌单" v-if="playlist.length == 0"></uv-empty>
-		</view>
+		<user-playlist 
+			:list="playlist" 
+			@moreClick="tolink('/pages/playlist/playlistUser')"
+			@confirm="confirmAdd"
+		>
+		</user-playlist>
 		
-		<view class="card">
-			<view class="card-header">
-				<view class="card-title">收藏歌单</view>
-				<view class="card-more" @click="tolink('/pages/playlist/playlistCollect')">
-					<view>查看全部</view>
-					<uv-icon name="arrow-right"></uv-icon>
-				</view>
-			</view>
-			<uv-empty mode="data" icon="https://cdn.uviewui.com/uview/empty/data.png" text="暂无歌单"></uv-empty>
-		</view>
+		<user-playlist title="收藏歌单" type="1" :list="[]" @moreClick="tolink('/pages/playlist/playlistCollect')"></user-playlist>
 		
 		<player :is-tab-bar="true" />
 	</view>
@@ -77,24 +54,31 @@
 
 <script setup>
 	import { ref } from 'vue'
-	import { onShow } from '@dcloudio/uni-app'
+	import { onLoad, onShow } from '@dcloudio/uni-app'
 	
 	import { getUserDetails } from '@/api/user.js'
-	import { getPlaylistUser } from '@/api/playlist.js'
+	import { getPlaylistUser, createPlaylist } from '@/api/playlist.js'
 	
 	import { checkLoginState, tolink } from '@/utils/index.js'
+	
+	import UserPlaylist from './components/UserPlaylist.vue'
 	
 	let us = ref(null)
 	
 	let playlist = ref([])
 	
-	onShow(() => {
+	onLoad(() => {
 		if(checkLoginState()) {
 			getUserData()
+		}
+	})
+	
+	onShow(() => {
+		if(checkLoginState()) {
 			getPlaylistData()
 		} else {
 			us.value = null
-			playList.value = []
+			playlist.value = []
 		}
 	})
 	
@@ -113,7 +97,25 @@
 	
 	const getPlaylistData = async () => {
 		let { data } = await getPlaylistUser(uni.getStorageSync('id'))
+		// console.log(data)
 		playlist.value = data.playlist
+	}
+	
+	// 添加歌单
+	const confirmAdd = async (e) => {
+		let { data } = await createPlaylist(e.name, e.privacy)
+		if(data.code == 200) {
+			uni.showToast({
+				title: '添加歌单成功',
+				icon: 'none'
+			})
+			getPlaylistData()
+		} else {
+			uni.showToast({
+				title: data.msg,
+				icon: 'none'
+			})
+		}
 	}
 </script>
 
@@ -177,56 +179,6 @@
 	.total-text {
 		color: gray;
 		font-size: 24rpx;
-	}
-	
-	.card {
-		margin-top: 24rpx;
-		padding: 30rpx;
-		border-radius: 20rpx;
-		background-color: #fff;
-	}
-	
-	.card-header {
-		margin-bottom: 30rpx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	
-	.card-more {
-		display: flex;
-		align-items: center;
-		color: gray;
-		font-size: 24rpx;
-	}
-	
-	.card-title {
-		font-size: 32rpx;
-		font-weight: bold;
-	}
-	
-	.card-item {
-		margin-top: 20rpx;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	
-	.card-item-cover {
-		margin-right: 20rpx;
-		width: 90rpx;
-		border-radius: 8rpx;
-	}
-	
-	.card-row {
-		display: flex;
-		align-items: center;
-	}
-	
-	.count {
-		margin-top: 6rpx;
-		font-size: 26rpx;
-		color: gray;
 	}
 	
 	.banner {

@@ -41,3 +41,10 @@ export function getPlaylistUser(uid) {
     url: `/user/playlist?uid=${uid}`
   })
 }
+
+// 添加歌单
+export function createPlaylist(name, privacy) {
+	return request({
+	  url: `/playlist/create?name=${name}&privacy=${privacy}`
+	})
+}
