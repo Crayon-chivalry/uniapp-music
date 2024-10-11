@@ -1,6 +1,6 @@
 <template>
 	<view class="home">
-		<view class="search">
+		<view class="search" @click="tolink('/pages/search/index')">
 			<uv-search placeholder="请输入搜索内容" v-model="searchVal" :showAction="false"></uv-search>
 		</view>
 

@@ -2,7 +2,7 @@
 	<view class="page">
 		<view class="header">
 			<uv-icon name="setting" class="head-icon" size="21" @click="userClick"></uv-icon>
-			<uv-icon name="chat" class="head-icon" size="21"></uv-icon>
+			<uv-icon name="chat" class="head-icon" size="21" @click="tolink('/pages/msg/index')"></uv-icon>
 		</view>
 		
 		<view class="user">
@@ -97,7 +97,6 @@
 	
 	const getPlaylistData = async () => {
 		let { data } = await getPlaylistUser(uni.getStorageSync('id'))
-		// console.log(data)
 		playlist.value = data.playlist
 	}
 	

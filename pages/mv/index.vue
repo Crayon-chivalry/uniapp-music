@@ -103,7 +103,7 @@
 	}
 	
 	.card {
-		margin-bottom: 20rpx;
+		margin-top: 20rpx;
 		background-color: #fff;
 	}
 	

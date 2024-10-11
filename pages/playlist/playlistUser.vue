@@ -8,10 +8,12 @@
 					<view class="count">{{ item.trackCount }}首</view>
 				</view>
 			</view>
-			<uv-icon name="more-dot-fill"></uv-icon>
+			<uv-icon name="more-dot-fill" @click="actionSheet.open()"></uv-icon>
 		</view>
 		
 		<uv-empty mode="data" icon="https://cdn.uviewui.com/uview/empty/data.png" text="暂无歌单" v-if="playlist.length == 0"></uv-empty>
+	
+		<uv-action-sheet ref="actionSheet" :actions="actions" round="10"></uv-action-sheet>
 	</view>
 </template>
 
@@ -21,6 +23,15 @@
 	
 	import { checkLoginState } from '@/utils/index.js'
 	import { getPlaylistUser } from '@/api/playlist.js'
+	
+	const actionSheet = ref(null)
+	
+	const actions = [
+		{ name: '置顶' },
+		{ name: '分享' },
+		{ name: '编辑歌单信息' },
+		{ name: '删除歌单' },
+	]
 	
 	let playlist = ref([])
 	

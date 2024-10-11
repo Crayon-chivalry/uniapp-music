@@ -95,7 +95,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		border-bottom: 1px solid rgba(223, 215, 215, 0.4);
+		border-bottom: 1px solid rgba(228, 222, 222, 0.3);
 	}
 	
 	.cell:last-child {

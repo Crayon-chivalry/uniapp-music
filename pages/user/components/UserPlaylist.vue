@@ -16,7 +16,7 @@
 						<view class="count">{{ item.trackCount }}首</view>
 					</view>
 				</view>
-				<uv-icon name="more-dot-fill"></uv-icon>
+				<uv-icon name="more-dot-fill" @click="actionSheet.open()"></uv-icon>
 			</view>
 			<view class="card-item" v-if="type == 0 && checkLoginState()" @click="popup.open()">
 				<view class="card-row">
@@ -49,6 +49,8 @@
 			</view>
 		</uv-popup>
 		
+		<uv-action-sheet ref="actionSheet" :actions="actions" round="10"></uv-action-sheet>
+		
 	</view>
 </template>
 
@@ -77,6 +79,15 @@
 	const $emit = defineEmits(['moreClick', 'confirm'])
 	
 	const popup = ref(null)
+	
+	const actionSheet = ref(null)
+	
+	const actions = [
+		{ name: '置顶' },
+		{ name: '分享' },
+		{ name: '编辑歌单信息' },
+		{ name: '删除歌单' },
+	]
 	
 	let name = ref("")
 	let privacy = ref("")
@@ -168,7 +179,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: rgba(241, 231, 231, .8);
+		background-color: rgba(231, 231, 231, 0.8);
 	}
 	
 	.popup {
@@ -190,5 +201,9 @@
 		margin-top: 30rpx;
 		color: gray;
 		font-size: 26rpx;
+	}
+	
+	:deep(.uv-popup__content) {
+		padding-bottom: 100rpx;
 	}
 </style>

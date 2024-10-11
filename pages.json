@@ -19,12 +19,6 @@
 			}
 		},
 		{
-			"path": "pages/radio/index",
-			"style": {
-				"navigationBarTitleText": "电台"
-			}
-		},
-		{
 			"path": "pages/user/index",
 			"style": {
 				"navigationBarTitleText": "我的",
@@ -137,6 +131,33 @@
 			{
 				"navigationBarTitleText" : "收藏歌单"
 			}
+		},
+		{
+			"path" : "pages/event/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "动态",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path" : "pages/msg/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "消息"
+			}
+		},
+		{
+			"path" : "pages/search/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "搜索",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {
@@ -163,10 +184,10 @@
 				"selectedIconPath": "static/img/tabs/mv-active.png"
 			},
 			{
-				"pagePath": "pages/radio/index",
-				"text": "电台",
-				"iconPath": "static/img/tabs/radio.png",
-				"selectedIconPath": "static/img/tabs/radio-active.png"
+				"pagePath": "pages/event/index",
+				"text": "动态",
+				"iconPath": "static/img/tabs/event.png",
+				"selectedIconPath": "static/img/tabs/event-active.png"
 			},
 			{
 				"pagePath": "pages/user/index",
