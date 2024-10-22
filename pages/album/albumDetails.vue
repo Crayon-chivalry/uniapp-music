@@ -1,59 +1,39 @@
 <template>
-	<view v-if="playlist">
+	<view v-if="album">
 		<view class="header">
-			<uv-navbar title="歌单" placeholder :bgColor="navbarBg" :leftIconColor="navColor" @leftClick="back"></uv-navbar>
+			<uv-navbar title="专辑" placeholder :bgColor="navbarBg" :leftIconColor="navColor" @leftClick="back"></uv-navbar>
 			
-			<image :src="playlist.coverImgUrl" mode="widthFix" class="header-bg"></image>
+			<image :src="album.picUrl" mode="widthFix" class="header-bg"></image>
 			
 			<view class="info">
 				<view class="row">
-					<image :src="playlist.coverImgUrl" mode="widthFix" class="cover"></image>
+					<image :src="album.picUrl" mode="widthFix" class="cover"></image>
 					<view class="col">
-						<view class="playlist-name">{{ playlist.name }}</view>
-						<view class="creator">
-							<image :src="playlist.creator.avatarUrl" mode="widthFix" class="avatar"></image>
-							<view>{{ playlist.creator.nickname }}</view>
-						</view>
-						<view class="tag">
-							<view class="tag-item" v-if="playlist.score">{{ playlist.score }}</view>
-							<view class="tag-item" v-for="(item, index) in playlist.algTags" :key="index">{{ item }}</view>
-						</view>
+						<view class="playlist-name">{{ album.name }}</view>
+						<view class="creator">歌手：{{ album.artist.name }}</view>
+						<view class="creator">发行时间：{{ formatDate(album.publishTime) }}</view>
 					</view>
 				</view>
 				<view class="describe">
-					<view class="describe-text">{{ playlist.description }}</view>
+					<view class="describe-text">{{ album.description }}</view>
 					<uv-icon name="arrow-right" size="14" color="#CACACA"></uv-icon>
-				</view>
-				<view class="stat">
-					<view class="stat-item">
-						<image src="../../static/img/playlist/playlist-share.svg" mode="widthFix" class="stat-icon"></image>
-						<view>{{ playlist.shareCount }}</view>
-					</view>
-					<view class="stat-item">
-						<image src="../../static/img/playlist/playlist-comment.svg" mode="widthFix" class="stat-icon"></image>
-						<view>{{ playlist.commentCount }}</view>
-					</view>
-					<view class="stat-item">
-						<image src="../../static/img/playlist/playlist-like.svg" mode="widthFix" class="stat-icon"></image>
-						<view>{{ playlist.subscribedCount }}</view>
-					</view>
 				</view>
 			</view>
 		</view>
 		
 		<view class="container">
 			<view class="play-all-row">
-				<image src="../../static/img/playlist/play.svg" mode="widthFix" class="play-icon"></image>
-				<view>播放全部<text>({{ playlist.tracks.length }})</text></view>
+				<image src="@/static/img/playlist/play.svg" mode="widthFix" class="play-icon"></image>
+				<view>播放全部<text>({{ album.size }})</text></view>
 			</view>
 			<view class="list">
-				<view class="item" v-for="(item,index) in playlist.tracks" :key="item.id" @click="toSongDetails(item)">
+				<view class="item" v-for="(item,index) in songs" :key="item.id" @click="toSongDetails(item)">
 					<view class="number">{{ index + 1 }}</view>
 					<view class="col">
 						<view class="item-name">{{ item.name }}</view>
 						<view class="item-author">{{ item.al.name }}</view>
 					</view>
-					<image src="../../static/img/playlist/playlist-more.svg" mode="widthFix" class="more-icon"></image>
+					<image src="@/static/img/playlist/playlist-more.svg" mode="widthFix" class="more-icon"></image>
 				</view>
 			</view>
 		</view>
@@ -66,18 +46,22 @@
 	import { ref } from 'vue'
 	import { onLoad, onPageScroll } from '@dcloudio/uni-app'
 	
-	import { getPlaylistDetails } from '@/api/playlist.js'
+	import { getAlbum } from '@/api/album.js'
 	
-	import { toSongDetails } from '@/utils/index.js'
+	import { toSongDetails, formatDate } from '@/utils/index.js'
+	
+	let id = ref("")
+	
+	let album = ref(null)
+	let songs = ref([])
 	
 	let navbarBg = ref("transparent")
 	let stickyBg = ref("transparent")
 	let navColor = ref('#fff')
-	let playlist = ref(null)
 	
-	onLoad(async (e) => {
-		let { data } = await getPlaylistDetails(e.id)
-		playlist.value = data.playlist
+	onLoad((e) => {
+		id.value = e.id
+		getdata()
 	})
 	
 	onPageScroll((e) => {
@@ -90,7 +74,7 @@
 			navColor.value = '#fff'
 		}
 		// 吸顶颜色
-		if(e.scrollTop > 230) {
+		if(e.scrollTop > 200) {
 			stickyBg.value = "#fff"
 		} else {
 			stickyBg.value = "transparent"
@@ -99,6 +83,12 @@
 	
 	const back = () => {
 		uni.navigateBack()
+	}
+	
+	const getdata = async () => {
+		let { data } = await getAlbum(id.value)
+		album.value = data.album
+		songs.value = data.songs
 	}
 </script>
 
@@ -197,8 +187,9 @@
 	
 	.container {
 		position: relative;
-		margin-top: -300rpx;
+		margin-top: -400rpx;
 		border-radius: 40rpx 40rpx 0 0;
+		min-height: calc(100vh - 450rpx);
 		background-color: #fff;
 	}
 	

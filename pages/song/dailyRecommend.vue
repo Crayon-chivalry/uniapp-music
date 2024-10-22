@@ -2,7 +2,7 @@
 	<view>
 		<view class="list">
 			<view class="item" v-for="item in newSongList" :key="item.id" @click="toSongDetails(item)">
-				<image :src="item.picUrl" mode="widthFix" class="pice"></image>
+				<uv-image :src="item.picUrl" width="100rpx" height="100rpx" radius="8rpx" class="pice"></uv-image>
 				<view class="item-content">
 					<view class="name">{{ item.name }}</view>
 					<view class="singer">
@@ -51,8 +51,6 @@
 	
 	.pice {
 		margin-right: 20rpx;
-		width: 100rpx;
-		border-radius: 8rpx;
 	}
 	
 	.name {

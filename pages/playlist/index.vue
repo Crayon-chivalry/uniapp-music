@@ -6,7 +6,7 @@
 		
 		<view class="list">
 			<view class="item" v-for="item in list" :key="item.id" @click="tolink('./playlistDetails?id=' + item.id)">
-				<uv-image :src="item.coverImgUrl" mode="widthFix" width="100%" radius="10"></uv-image>
+				<uv-image :src="item.coverImgUrl" width="212rpx" height="216rpx" radius="10"></uv-image>
 				<view class="name">{{ item.name }}</view>
 			</view>
 		</view>

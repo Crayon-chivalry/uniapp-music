@@ -1,6 +1,6 @@
 <template>
 	<view class="mv">
-		<view class="mv-item" v-for="item in list" :key="item.id">
+		<view class="mv-item" v-for="item in list" :key="item.id" @click="tolink('/pages/mv/mvDetails?id=' + item.id)">
 			<view class="cover-wrap">
 				<image :src="item.imgurl" mode="widthFix" class="cover"></image>
 				<view class="duration">{{ showDuration(item.duration) }}</view>
@@ -11,7 +11,7 @@
 					{{ item.name }}
 				</view>
 				<view class="mv-time">{{ item.publishTime }}</view>
-				<view class="mv-count">{{ item.playCount }}万</view>
+				<view class="mv-count">{{ item.playCount }}首</view>
 			</view>
 		</view>
 	</view>
@@ -22,7 +22,8 @@
 		defineProps
 	} from 'vue'
 	import {
-		formatDate
+		formatDate,
+		tolink
 	} from '@/utils/index.js'
 	
 	import { showDuration } from '@/utils/index.js'

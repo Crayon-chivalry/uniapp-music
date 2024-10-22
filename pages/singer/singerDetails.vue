@@ -1,6 +1,6 @@
 <template>
 	<view class="detail" v-if="detail">
-		<uv-navbar :title="detail.artist.name" fixed="" :bgColor="navbarBg" @leftClick="back"></uv-navbar>
+		<uv-navbar :title="title" fixed="" :bgColor="navbarBg" :leftIconColor="leftIconColor" @leftClick="back"></uv-navbar>
 		
 		<view class="cover" :style="coverStyle"></view>
 		
@@ -56,6 +56,8 @@
 	let navbarBg = ref("transparent")
 	let stickyBg = ref("transparent")
 	let pageBg = ref("#F5F5F5")
+	let leftIconColor = ref('#fff')
+	let title = ref("")
 	
 	let tabs = [
 		{name: '主页'},
@@ -89,8 +91,12 @@
 		// 顶部导航栏颜色
 		if(e.scrollTop > 22) {
 			navbarBg.value = "#fff"
+			leftIconColor.value = '#000'
+			title.value = detail.value.artist.name
 		} else {
 			navbarBg.value = "transparent"
+			leftIconColor.value = '#fff'
+			title.value = ''
 		}
 		// 吸顶颜色
 		if(e.scrollTop > 345) {

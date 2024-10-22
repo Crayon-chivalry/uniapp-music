@@ -158,6 +158,16 @@
 					"titleNView": false
 				}
 			}
+		},
+		{
+			"path" : "pages/album/albumDetails",
+			"style" : 
+			{
+				"navigationBarTitleText" : "专辑",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

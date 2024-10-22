@@ -1,7 +1,7 @@
 <template>
 	<view class="album">
-		<view class="album-item" v-for="item in list" :key="item.id">
-			<image :src="item.blurPicUrl" mode="widthFix" class="cover"></image>
+		<view class="album-item" v-for="item in list" :key="item.id" @click="tolink('/pages/album/albumDetails?id=' + item.id)">
+			<uv-image :src="item.picUrl" width="140rpx" height="144rpx" radius="12rpx" class="cover"></uv-image>
 			<view>
 				<view class="album-name">{{ item.name }}</view>
 				<view class="album-desc">{{ formatDate(item.publishTime) }} {{ item.size }}首</view>
@@ -17,7 +17,8 @@
 		defineProps
 	} from 'vue'
 	import {
-		formatDate
+		formatDate,
+		tolink
 	} from '@/utils/index.js'
 
 	defineProps({
@@ -64,8 +65,6 @@
 	.cover {
 		position: relative;
 		margin-right: 20rpx;
-		width: 140rpx;
-		border-radius: 12rpx;
 		z-index: 2;
 		border: 1px solid rgba(199, 193, 193, .5);
 	}
