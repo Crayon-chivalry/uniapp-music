@@ -2,7 +2,7 @@
 	<view class="home-card">
 		<view class="card-head">
 			<view class="card-head-title">{{ title }}</view>
-			<view class="card-head-text">
+			<view class="card-head-text" @click="$emit('moreClick')">
 				{{ rightText }}
 				<uv-icon name="arrow-right" size="14" color="gray"></uv-icon>
 			</view>
@@ -16,7 +16,7 @@
 			</view>
 			<view class="card-scroll" v-if="type ==2">
 				<view class="card-item" v-for="item in list" :key="item.id" @click="$emit('cardClick', item)">
-					<image :src="item.picUrl" mode="widthFix" class="card-item-cover"></image>
+					<uv-image :src="item.picUrl" width="176rpx" height="180rpx" radius="12rpx"></uv-image>
 					<view class="card-item-title">{{ item.title }}</view>
 				</view>
 			</view>
@@ -51,7 +51,7 @@
 		}
 	})
 	
-	const $emit = defineEmits(['cardClick'])
+	const $emit = defineEmits(['cardClick', 'moreClick'])
 
 	let titleStyle = {
 		padding: '8rpx 20rpx',
@@ -126,10 +126,5 @@
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 		font-size: 26rpx;
-	}
-	
-	.card-item-cover {
-		width: 100%;
-		border-radius: 12rpx;
 	}
 </style>

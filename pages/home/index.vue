@@ -11,9 +11,11 @@
 		
 		<home-menu />
 		
-		<home-card title="推荐歌单" :list="songSheetList" @cardClick="(e) => tolink('/pages/playlist/playlistDetails?id=' + e)" />
-		<home-card title="推荐新曲" :list="newSongList" type="2" class="card-mt" @cardClick="(e) => toSongDetails(e)" />
-		<home-card title="推荐MV" :list="mvList" type="2" class="card-mt" />
+		<home-card title="推荐歌单" :list="songSheetList" @cardClick="(e) => tolink('/pages/playlist/playlistDetails?id=' + e)"
+			@moreClick="tolink('/pages/playlist/index')" />
+		<home-card title="推荐新曲" :list="newSongList" type="2" class="card-mt" @cardClick="(e) => toSongDetails(e)"
+			@moreClick="tolink('/pages/song/dailyRecommend')" />
+		<home-card title="推荐MV" :list="mvList" type="2" class="card-mt" @moreClick="switchTab('/pages/mv/index')" />
 		
 		<player :is-tab-bar="true" />
 	</view>
@@ -27,7 +29,7 @@
 	import { getBanner } from '@/api/home.js'
 	import { getRePlaylist } from '@/api/playlist.js'
 	import { getReNewSong } from '@/api/song.js'
-	import { getReMv } from '@/api/mv.js'
+	import { getNewMv } from '@/api/mv.js'
 	
 	import HomeMenu from './components/HomeMenu'
 	import HomeCard from './components/HomeCard'
@@ -39,21 +41,43 @@
 	let mvList = ref([])
 
 	onLoad(async () => {
+		getBannerData()
+		getPlaylist()
+		getSong()
+		getMv()
+	})
+	
+	const switchTab = (url) => {
+		uni.switchTab({
+			url: url
+		})
+	}
+	
+	const getBannerData = async () => {
 		let { data: { banners } } = await getBanner()
 		bannerList.value = banners
-		
-		let { data: { result: songSheet } } = await getRePlaylist()
-		songSheet.forEach(item => item.title = item.name)
-		songSheetList.value = songSheet
-		
-		let { data: {result: newSong } } = await getReNewSong()
-		newSong.forEach(item => item.title = item.name)
-		newSongList.value = newSong
-		
-		let { data: {result: mv } } = await getReMv()
-		mv.forEach(item => item.title = item.name)
-		mvList.value = mv
-	})
+	}
+	
+	const getPlaylist = async () => {
+		let { data: { result } } = await getRePlaylist()
+		result.forEach(item => item.title = item.name)
+		songSheetList.value = result
+	}
+	
+	const getSong = async () => {
+		let { data: { result } } = await getReNewSong()
+		result.forEach(item => item.title = item.name)
+		newSongList.value = result
+	}
+	
+	const getMv = async () => {
+		let { data: { data } } = await getNewMv()
+		data.forEach(item => {
+			item.title = item.name
+			item.picUrl = item.cover
+		})
+		mvList.value = data
+	}
 </script>
 
 <style scoped>

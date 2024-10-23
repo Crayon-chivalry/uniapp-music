@@ -7,6 +7,13 @@ export const getReMv = () => {
 	})
 }
 
+// 最新 MV
+export const getNewMv = (limit = 10) => {
+	return request({
+		url: `/mv/first?limit=${limit}`
+	})
+}
+
 // 全部 MV
 export const getAllMv = (area, offset) => {
 	return request({
@@ -28,6 +35,7 @@ export const getMvStats = (id) => {
 	})
 }
 
+// 获取mv地址
 export const getMvUrl = (id) => {
 	return request({
 		url: `/mv/url?id=${id}`

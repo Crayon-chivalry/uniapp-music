@@ -40,7 +40,7 @@
 				<view class="name">{{ details.name }}</view>
 				<view class="time">{{ details.publishTime }}</view>
 			</view>
-			<uv-slider v-model="progress" backgroundColor="#191919" activeColor="#fff" block-size="12"></uv-slider>
+			<uv-slider v-model="progress" disabled backgroundColor="#191919" activeColor="#fff" block-size="12"></uv-slider>
 			<view class="input">
 				<uv-input placeholder="发条评论结识有趣的人" border="none" v-model="content" color="#fff"></uv-input>
 			</view>
