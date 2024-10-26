@@ -50,13 +50,13 @@
 
 <script setup>
 	import { ref } from 'vue'
-	import { onLoad, onUnload } from '@dcloudio/uni-app'
+	import { onLoad } from '@dcloudio/uni-app'
 	
 	import { getMvDetail, getMvStats, getMvUrl } from '@/api/mv.js'
 	
 	import useMusic from '@/hooks/useMusic.js'
 	
-	const { pause, play } = useMusic()
+	const { pause } = useMusic()
 	
 	let details = ref(null)
 	let stats = ref({})
@@ -81,11 +81,6 @@
 		
 		let { data: { data: mvUrl } } = await getMvUrl(e.id)
 		url.value = mvUrl.url
-	})
-	
-	onUnload(() => {
-		// 离开页面重新播放音乐
-		play()
 	})
 	
 	const back = () => {

@@ -25,15 +25,15 @@
 			<view class="speed">
 				<view>{{ showDuration(currentTime) }}</view>
 				<view class="col">
-					<uv-slider v-model="progress" block-size="16"></uv-slider>
+					<uv-slider v-model="progress" block-size="16" @change="change"></uv-slider>
 				</view>
 				<view>{{ showDuration(totalTime) }}</view>
 			</view>
 			<view class="footer-row">
-				<image src="../../static/img/song/prve.png" mode="widthFix" class="footer-icon"></image>
+				<image src="../../static/img/song/prve.svg" mode="widthFix" class="footer-icon"></image>
 				<image src="../../static/img/song/pause.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="playState"></image>
 				<image src="../../static/img/song/play.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="!playState"></image>
-				<image src="../../static/img/song/next.png" mode="widthFix" class="footer-icon"></image>
+				<image src="../../static/img/song/next.svg" mode="widthFix" class="footer-icon"></image>
 			</view>
 		</view>
 	</view>
@@ -48,7 +48,7 @@
 	
 	import useMusic from '@/hooks/useMusic.js'
 	
-	const { currentTime, totalTime, progress, playState, play, pause } = useMusic()
+	const { currentTime, totalTime, progress, playState, play, pause, seek } = useMusic()
 	
 	let song = ref(null)
 	
@@ -67,6 +67,11 @@
 		} else {
 			play()
 		}
+	}
+	
+	// 进度条发生变化
+	const change = (e) => {
+		seek(parseInt(totalTime.value / 1000 * e / 100))
 	}
 </script>
 

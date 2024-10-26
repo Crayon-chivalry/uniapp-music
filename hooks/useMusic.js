@@ -58,6 +58,14 @@ export default function useMusic() {
 		}
 	}
 	
+	// 设置播放进度/时长
+	function seek(second) {
+		innerAudioContext.value.seek(second)
+		currentTime.value = innerAudioContext.value.currentTime * 1000
+		destroyTime()
+		setPlayTime()
+	}
+	
 	// 设置当前歌曲播放时长
 	function setPlayTime() {
 		destroyTime()
@@ -82,6 +90,7 @@ export default function useMusic() {
 		progress,
 		setMusicData,
 		play,
-		pause
+		pause,
+		seek
 	}
 }
