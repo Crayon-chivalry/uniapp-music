@@ -31,8 +31,8 @@
 			</view>
 			<view class="footer-row">
 				<image src="../../static/img/song/prve.svg" mode="widthFix" class="footer-icon"></image>
-				<image src="../../static/img/song/pause.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="playState"></image>
-				<image src="../../static/img/song/play.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="!playState"></image>
+				<image src="../../static/img/song/play.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="playState"></image>
+				<image src="../../static/img/song/pause.svg" mode="widthFix" class="play-icon" @click="playChange" v-show="!playState"></image>
 				<image src="../../static/img/song/next.svg" mode="widthFix" class="footer-icon"></image>
 			</view>
 		</view>

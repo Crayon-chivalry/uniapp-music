@@ -5,8 +5,8 @@
 				<image :src="musicData.picUrl ? musicData.picUrl : musicData.al.picUrl " class="player-cover"></image>
 				<view class="player-name">{{ musicData.name }}</view>
 			</view>
-			<image src="../static/img/song/pause.svg" mode="widthFix" class="play-icon" @click="playChange" v-if="playState"></image>
-			<image src="../static/img/song/play.svg" mode="widthFix" class="play-icon" @click="playChange" v-else></image>
+			<image src="../static/img/song/play.svg" mode="widthFix" class="play-icon" @click="playChange" v-if="playState"></image>
+			<image src="../static/img/song/pause.svg" mode="widthFix" class="play-icon" @click="playChange" v-else></image>
 		</view>
 		
 		<view class="placeholder"></view>
